@@ -11,7 +11,7 @@ const api = axios.create({
 const SignupForm = () => {
   const [roles, setRoles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useHistory().use();
+  const history = useHistory();
   
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
     defaultValues: {
@@ -49,7 +49,7 @@ const SignupForm = () => {
 
       await api.post('/signup', formData);
       alert('You need to click link in email to activate your account!');
-      navigate(-1);
+      history.push('/');
     } catch (error) {
       alert(error.response?.data?.message || 'An error occurred');
     } finally {
