@@ -1,0 +1,69 @@
+{
+  "info": {
+    "name": "SemihShop API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Get Roles",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "https://workintech-fe-ecommerce.onrender.com/roles",
+              "protocol": "https",
+              "host": ["workintech-fe-ecommerce", "onrender", "com"],
+              "path": ["roles"]
+            }
+          }
+        },
+        {
+          "name": "Signup Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://workintech-fe-ecommerce.onrender.com/signup",
+              "protocol": "https",
+              "host": ["workintech-fe-ecommerce", "onrender", "com"],
+              "path": ["signup"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"test@example.com\",\n    \"password\": \"Test123!@#\",\n    \"role_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Signup Store",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://workintech-fe-ecommerce.onrender.com/signup",
+              "protocol": "https",
+              "host": ["workintech-fe-ecommerce", "onrender", "com"],
+              "path": ["signup"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Store Owner\",\n    \"email\": \"store@example.com\",\n    \"password\": \"Store123!@#\",\n    \"role_id\": 2,\n    \"store\": {\n        \"name\": \"Test Store\",\n        \"phone\": \"+905551234567\",\n        \"tax_no\": \"T1234V567890\",\n        \"bank_account\": \"TR330006100519786457841326\"\n    }\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
