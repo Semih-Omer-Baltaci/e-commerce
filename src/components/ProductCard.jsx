@@ -1,0 +1,55 @@
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { ShoppingCart, Heart } from 'lucide-react';
+
+const ProductCard = ({ product }) => {
+  return (
+    <div className="group relative bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+      <Link to={`/product/${product.id}`} className="block">
+        {/* Product Image */}
+        <div className="relative aspect-square overflow-hidden rounded-t-lg">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+          />
+          <button
+            className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            aria-label="Add to wishlist"
+          >
+            <Heart className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Product Info */}
+        <div className="p-4">
+          <h3 className="text-sm font-medium text-gray-900 mb-1">{product.name}</h3>
+          <p className="text-sm text-gray-500 mb-2">{product.category}</p>
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-bold text-gray-900">
+              ${product.price.toFixed(2)}
+            </span>
+            <button
+              className="p-2 bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-colors"
+              aria-label="Add to cart"
+            >
+              <ShoppingCart className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+};
+
+ProductCard.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+export default ProductCard;

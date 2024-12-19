@@ -2,7 +2,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import md5 from 'md5';
 import { toast } from 'react-toastify';
 import { loginUser } from '../store/slices/userSlice';
@@ -14,7 +14,7 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const onSubmit = async (data) => {
@@ -34,7 +34,7 @@ const LoginForm = () => {
 
       // Redirect to previous page or home
       const from = location.state?.from?.pathname || '/';
-      history.push(from);
+      navigate(from);
       
       toast.success('Successfully logged in!');
     } catch (error) {

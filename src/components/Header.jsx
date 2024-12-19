@@ -29,9 +29,10 @@ const Header = () => {
           <nav className="hidden md:flex space-x-8">
             <Link to="/" className="text-gray-700 hover:text-gray-900">Home</Link>
             <Link to="/shop" className="text-gray-700 hover:text-gray-900">Shop</Link>
-            <Link to="/categories" className="text-gray-700 hover:text-gray-900">Categories</Link>
             <Link to="/about" className="text-gray-700 hover:text-gray-900">About</Link>
+            <Link to="/about" className="text-gray-700 hover:text-gray-900">Blog</Link>
             <Link to="/contact" className="text-gray-700 hover:text-gray-900">Contact</Link>
+            <Link to="/about" className="text-gray-700 hover:text-gray-900">Page</Link>
           </nav>
 
           {/* Right Section */}

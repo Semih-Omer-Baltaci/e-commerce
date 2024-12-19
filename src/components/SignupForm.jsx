@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 
 const SignupForm = () => {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   
   const { 
     register, 
@@ -55,7 +55,7 @@ const SignupForm = () => {
 
       await api.post('/signup', formData);
       alert('You need to click link in email to activate your account!');
-      history.goBack();
+      navigate(-1);
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     } finally {
