@@ -1,46 +1,54 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '@/store/slices/productSlice';
 
 const ProductDetail = () => {
-  useParams();
+  const { productId } = useParams();
+  const dispatch = useDispatch();
+  const { items: products, loading, error } = useSelector((state) => state.products);
   
-  // In a real app, you would fetch product details based on the id
-  const product = {
-    id: 1,
-    name: 'Product 1',
-    price: 29.99,
-    image: 'https://via.placeholder.com/400',
-    description: 'This is a detailed description of the product. It includes information about features, materials, and other important details.',
-    specifications: [
-      'Material: Premium Quality',
-      'Size: Standard',
-      'Color: Multiple Options Available',
-    ]
-  };
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div className="container mx-auto px-4 py-8">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="container mx-auto px-4 py-8">Error: {error}</div>;
+  }
+
+  const product = products?.find(p => p.id === parseInt(productId));
+
+  if (!product) {
+    return <div className="container mx-auto px-4 py-8">Product not found</div>;
+  }
+
+  const productImage = product.images && product.images[0] ? product.images[0].url : 'https://via.placeholder.com/400';
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-16">
       {/* Mobile View */}
       <div className="md:hidden">
         <div className="space-y-4">
           <img
-            src={product.image}
+            src={productImage}
             alt={product.name}
             className="w-full h-auto rounded-lg"
           />
           <div className="space-y-2">
             <h1 className="text-2xl font-bold">{product.name}</h1>
-            <p className="text-xl font-semibold text-blue-600">${product.price}</p>
-            <p className="text-gray-600">{product.description}</p>
-            <div className="space-y-2">
-              <h2 className="text-lg font-semibold">Specifications:</h2>
-              <ul className="list-disc pl-5">
-                {product.specifications.map((spec, index) => (
-                  <li key={index} className="text-gray-600">{spec}</li>
-                ))}
-              </ul>
+            <p className="text-xl font-semibold text-blue-600">${Number(product.price).toFixed(2)}</p>
+            <p className="text-gray-600">{product.description || 'No description available'}</p>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-yellow-500">★</span>
+              <span className="text-sm text-gray-600">{Number(product.rating).toFixed(1)}</span>
+              <span className="text-sm text-gray-500">({product.sell_count} sold)</span>
             </div>
+            <p className="text-sm text-gray-500 mb-2">{product.stock} in stock</p>
             <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">
               Add to Cart
             </button>
@@ -53,23 +61,21 @@ const ProductDetail = () => {
         <div className="grid grid-cols-2 gap-8">
           <div>
             <img
-              src={product.image}
+              src={productImage}
               alt={product.name}
               className="w-full h-auto rounded-lg"
             />
           </div>
           <div className="space-y-4">
             <h1 className="text-3xl font-bold">{product.name}</h1>
-            <p className="text-2xl font-semibold text-blue-600">${product.price}</p>
-            <p className="text-gray-600">{product.description}</p>
-            <div className="space-y-2">
-              <h2 className="text-xl font-semibold">Specifications:</h2>
-              <ul className="list-disc pl-5">
-                {product.specifications.map((spec, index) => (
-                  <li key={index} className="text-gray-600">{spec}</li>
-                ))}
-              </ul>
+            <p className="text-2xl font-semibold text-blue-600">${Number(product.price).toFixed(2)}</p>
+            <p className="text-gray-600">{product.description || 'No description available'}</p>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-yellow-500">★</span>
+              <span className="text-sm text-gray-600">{Number(product.rating).toFixed(1)}</span>
+              <span className="text-sm text-gray-500">({product.sell_count} sold)</span>
             </div>
+            <p className="text-sm text-gray-500 mb-2">{product.stock} in stock</p>
             <button className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700">
               Add to Cart
             </button>

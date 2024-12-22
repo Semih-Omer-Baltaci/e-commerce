@@ -12,6 +12,7 @@ import ProductDetail from './pages/ProductDetail';
 import SignupForm from './components/SignupForm';
 import LoginForm from './components/LoginForm';
 
+
 function App() {
   return (
     <Provider store={store}>
@@ -22,7 +23,7 @@ function App() {
             <Route path="/" element={<RootLayout />}>
               <Route index element={<Home />} />
               <Route path="shop" element={<Shop />} />
-              <Route path="product/:id" element={<ProductDetail />} />
+              <Route path="shop/:gender/:category/:categoryId/:productName/:productId" element={<ProductDetail />} />
               <Route path="signup" element={<SignupForm />} />
               <Route path="login" element={<LoginForm />} />
             </Route>

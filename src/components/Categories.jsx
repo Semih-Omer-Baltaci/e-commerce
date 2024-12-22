@@ -1,30 +1,17 @@
 // Categories.jsx
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import api from '../api/axios';
+import { fetchCategories } from '../store/slices/categoriesSlice';
 
 const Categories = () => {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const dispatch = useDispatch();
+  const { items: categories, loading, error } = useSelector((state) => state.categories);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get('/categories');
-        setCategories(response.data);
-      // eslint-disable-next-line no-unused-vars
-      } catch (err) {
-        setError('Failed to load categories');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   const topCategories = [...categories].sort((a, b) => b.rating - a.rating).slice(0, 5);
 
