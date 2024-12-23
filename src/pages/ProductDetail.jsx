@@ -2,16 +2,18 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '@/store/slices/productSlice';
+import { fetchProductById } from '@/store/slices/productSlice';
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
-  const { items: products, loading, error } = useSelector((state) => state.products);
+  const { selectedProduct: product, loading, error } = useSelector((state) => state.products);
   
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    if (productId) {
+      dispatch(fetchProductById(productId));
+    }
+  }, [dispatch, productId]);
 
   if (loading) {
     return <div className="container mx-auto px-4 py-8">Loading...</div>;
@@ -20,8 +22,6 @@ const ProductDetail = () => {
   if (error) {
     return <div className="container mx-auto px-4 py-8">Error: {error}</div>;
   }
-
-  const product = products?.find(p => p.id === parseInt(productId));
 
   if (!product) {
     return <div className="container mx-auto px-4 py-8">Product not found</div>;
