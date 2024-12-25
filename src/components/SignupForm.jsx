@@ -23,6 +23,49 @@ const SignupForm = () => {
   const selectedRole = watch('role_id');
   const password = watch('password');
 
+  const getPasswordStrength = (password) => {
+    if (!password) return { strength: 0, text: '', requirements: [] };
+    
+    let strength = 0;
+    let requirements = [];
+
+    if (password.length >= 8) {
+      strength += 25;
+    } else {
+      requirements.push('At least 8 characters');
+    }
+    if (/[A-Z]/.test(password)) {
+      strength += 25;
+    } else {
+      requirements.push('One uppercase letter');
+    }
+    if (/[a-z]/.test(password)) {
+      strength += 25;
+    } else {
+      requirements.push('One lowercase letter');
+    }
+    if (/[0-9]/.test(password)) {
+      strength += 12.5;
+    } else {
+      requirements.push('One number');
+    }
+    if (/[@$!%*?&]/.test(password)) {
+      strength += 12.5;
+    } else {
+      requirements.push('One special character (@$!%*?&)');
+    }
+
+    let text = '';
+    if (strength === 100) text = 'Strong';
+    else if (strength >= 75) text = 'Good';
+    else if (strength >= 50) text = 'Fair';
+    else text = 'Weak';
+
+    return { strength, text, requirements };
+  };
+
+  const passwordStrength = getPasswordStrength(password);
+
   useEffect(() => {
     // Fetch roles when component mounts
     api.get('/roles')
@@ -113,6 +156,41 @@ const SignupForm = () => {
             className="w-full p-2 border rounded"
           />
           {errors.password && <span className="text-red-500">{errors.password.message}</span>}
+          
+          {/* Password strength indicator */}
+          {password && (
+            <div className="mt-2">
+              <div className="flex items-center gap-2">
+                <div className="flex-1 h-2 bg-gray-200 rounded">
+                  <div 
+                    className={`h-full rounded transition-all duration-300 ${
+                      passwordStrength.strength >= 75 ? 'bg-green-500' :
+                      passwordStrength.strength >= 50 ? 'bg-yellow-500' :
+                      'bg-red-500'
+                    }`}
+                    style={{ width: `${passwordStrength.strength}%` }}
+                  />
+                </div>
+                <span className={`text-sm ${
+                  passwordStrength.strength >= 75 ? 'text-green-500' :
+                  passwordStrength.strength >= 50 ? 'text-yellow-500' :
+                  'text-red-500'
+                }`}>
+                  {passwordStrength.text}
+                </span>
+              </div>
+              {passwordStrength.requirements.length > 0 && (
+                <div className="mt-2 text-sm text-gray-600">
+                  <p>Password requirements:</p>
+                  <ul className="list-disc list-inside">
+                    {passwordStrength.requirements.map((req, index) => (
+                      <li key={index}>{req}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div>

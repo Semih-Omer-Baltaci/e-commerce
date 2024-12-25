@@ -19,6 +19,7 @@ const LoginForm = () => {
 
   const onSubmit = async (data) => {
     try {
+      // Generate Gravatar URL
       const emailHash = md5(data.email.trim().toLowerCase());
       const gravatarUrl = `https://www.gravatar.com/avatar/${emailHash}?d=mp`;
       
@@ -28,13 +29,15 @@ const LoginForm = () => {
         gravatarUrl 
       })).unwrap();
 
+      // Only save token if remember me is checked
       if (data.rememberMe) {
         localStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
       }
 
       // Redirect to previous page or home
-      const from = location.state?.from?.pathname || '/';
-      navigate(from);
+      const returnUrl = location.state?.from?.pathname || '/';
+      navigate(returnUrl, { replace: true });
       
       toast.success('Successfully logged in!');
     } catch (error) {
@@ -58,6 +61,7 @@ const LoginForm = () => {
               },
             })}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            placeholder="Enter your email"
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -70,6 +74,7 @@ const LoginForm = () => {
             type="password"
             {...register('password', { required: 'Password is required' })}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            placeholder="Enter your password"
           />
           {errors.password && (
             <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
@@ -83,6 +88,12 @@ const LoginForm = () => {
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
           />
           <label className="ml-2 block text-sm text-gray-900">Remember me</label>
+        </div>
+
+        <div className="text-sm text-gray-600">
+          
+          <br />
+          
         </div>
 
         <button

@@ -1,8 +1,23 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Heart } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../store/slices/cartSlice';
 
 const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
+
+  const handleAddToCart = (e) => {
+    e.preventDefault(); // Prevent navigation from Link
+    if (!currentUser) {
+      navigate('/login', { state: { from: location.pathname } });
+      return;
+    }
+    dispatch(addToCart(product));
+  };
+
   return (
     <div className="group relative bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
       <Link to={`/product/${product.id}`} className="block">
@@ -30,8 +45,9 @@ const ProductCard = ({ product }) => {
               ${product.price.toFixed(2)}
             </span>
             <button
+              onClick={handleAddToCart}
               className="p-2 bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-colors"
-              aria-label="Add to cart"
+              aria-label={currentUser ? "Add to cart" : "Login to add to cart"}
             >
               <ShoppingCart className="w-5 h-5" />
             </button>

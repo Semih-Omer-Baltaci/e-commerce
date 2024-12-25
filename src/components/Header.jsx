@@ -1,4 +1,4 @@
-import { Menu, Search, ShoppingCart, User, Heart } from 'lucide-react';
+import { Menu, Search, ShoppingCart, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/slices/userSlice';
@@ -7,8 +7,10 @@ import { fetchCategories } from '@/store/slices/categoriesSlice';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
+  const { cart } = useSelector((state) => state.cart);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -19,6 +21,8 @@ const Header = () => {
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
+
+  const totalItems = cart.reduce((sum, item) => sum + item.count, 0);
 
   return (
     <>
@@ -129,26 +133,100 @@ const Header = () => {
             {/* Right Section */}
             <div className="flex items-center space-x-6">
               <div className="flex items-center text-[#23A6F0] space-x-1">
-                <User className="w-4 h-4" />
-                <Link to="/login" className="text-sm font-bold hover:text-blue-600">
-                  Login
-                </Link>
-                <span className="text-sm font-bold">/</span>
-                <Link to="/register" className="text-sm font-bold hover:text-blue-600">
-                  Register
-                </Link>
+                {currentUser ? (
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <img
+                        src={currentUser.gravatarUrl}
+                        alt={currentUser.name}
+                        className="w-8 h-8 rounded-full"
+                      />
+                      <span className="text-sm font-medium">{currentUser.name}</span>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="text-sm text-gray-600 hover:text-gray-900"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="text-sm font-medium text-gray-600 hover:text-gray-900"
+                  >
+                    Login
+                  </Link>
+                )}
               </div>
               <button className="text-[#23A6F0]">
                 <Search className="w-4 h-4" />
               </button>
-              <div className="flex items-center space-x-2">
-                <Link to="/cart" className="text-[#23A6F0] relative">
-                  <ShoppingCart className="w-4 h-4" />
-                  <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-                    1
-                  </span>
-                </Link>
-                <span className="text-[#23A6F0] text-xs">1</span>
+              <div className="relative">
+                <button 
+                  className="flex items-center" 
+                  onClick={() => setIsCartOpen(!isCartOpen)}
+                >
+                  <ShoppingCart className="w-6 h-6" />
+                  {totalItems > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                      {totalItems}
+                    </span>
+                  )}
+                </button>
+                
+                {isCartOpen && (
+                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg z-50">
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold mb-3">Shopping Cart</h3>
+                      {cart.length === 0 ? (
+                        <p className="text-gray-500">Your cart is empty</p>
+                      ) : (
+                        <div className="space-y-3">
+                          {cart.map((item) => (
+                            <div key={item.product.id} className="flex items-center justify-between">
+                              <div className="flex items-center space-x-3">
+                                <img 
+                                  src={item.product.image} 
+                                  alt={item.product.title} 
+                                  className="w-12 h-12 object-cover rounded"
+                                />
+                                <div>
+                                  <p className="text-sm font-medium">{item.product.title}</p>
+                                  <p className="text-sm text-gray-500">
+                                    ${item.product.price} x {item.count}
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                // eslint-disable-next-line no-undef
+                                onClick={() => dispatch(removeFromCart(item.product.id))}
+                                className="text-red-500 hover:text-red-700"
+                              >
+                                ×
+                              </button>
+                            </div>
+                          ))}
+                          <div className="pt-3 border-t">
+                            <div className="flex justify-between font-semibold">
+                              <span>Total:</span>
+                              <span>
+                                ${cart.reduce((sum, item) => sum + (item.product.price * item.count), 0).toFixed(2)}
+                              </span>
+                            </div>
+                            <Link
+                              to="/cart"
+                              className="mt-3 block w-full bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600"
+                              onClick={() => setIsCartOpen(false)}
+                            >
+                              View Cart
+                            </Link>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="flex items-center space-x-2">
                 <button className="text-[#23A6F0] relative">
