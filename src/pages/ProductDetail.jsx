@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductById } from '@/store/slices/productSlice';
+import { addToCart } from '@/store/slices/cartSlice';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -49,7 +50,10 @@ const ProductDetail = () => {
               <span className="text-sm text-gray-500">({product.sell_count} sold)</span>
             </div>
             <p className="text-sm text-gray-500 mb-2">{product.stock} in stock</p>
-            <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">
+            <button 
+              onClick={() => dispatch(addToCart(product))}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+            >
               Add to Cart
             </button>
           </div>
@@ -76,7 +80,10 @@ const ProductDetail = () => {
               <span className="text-sm text-gray-500">({product.sell_count} sold)</span>
             </div>
             <p className="text-sm text-gray-500 mb-2">{product.stock} in stock</p>
-            <button className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700">
+            <button 
+              onClick={() => dispatch(addToCart(product))}
+              className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700"
+            >
               Add to Cart
             </button>
           </div>

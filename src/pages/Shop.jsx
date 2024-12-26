@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Categories from '../components/Categories';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts, setFilters } from '@/store/slices/productSlice';
+import { addToCart } from '@/store/slices/cartSlice';
 import { Grid2X2, List } from 'lucide-react';
 
 
@@ -156,7 +157,13 @@ const Shop = () => {
               </div>
               <p className="text-gray-600 font-semibold">${Number(product.price).toFixed(2)}</p>
               <p className="text-sm text-gray-500 mb-2">{product.stock} in stock</p>
-              <button className={`mt-4 ${isGridView ? 'w-full' : 'w-auto'} bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300`}>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(addToCart(product));
+                }}
+                className={`mt-4 ${isGridView ? 'w-full' : 'w-auto'} bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300`}
+              >
                 Add to Cart
               </button>
             </div>

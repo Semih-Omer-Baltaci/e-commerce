@@ -1,5 +1,5 @@
 import { Menu, Search, ShoppingCart, Heart } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/slices/userSlice';
 import { useEffect, useState } from 'react';
@@ -11,6 +11,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -141,7 +142,7 @@ const Header = () => {
                         alt={currentUser.name}
                         className="w-8 h-8 rounded-full"
                       />
-                      <span className="text-sm font-medium">{currentUser.name}</span>
+                      <span className="text-sm font-medium">{currentUser.email}</span>
                     </div>
                     <button
                       onClick={handleLogout}
@@ -184,27 +185,34 @@ const Header = () => {
                       ) : (
                         <div className="space-y-3">
                           {cart.map((item) => (
-                            <div key={item.product.id} className="flex items-center justify-between">
-                              <div className="flex items-center space-x-3">
-                                <img 
-                                  src={item.product.image} 
-                                  alt={item.product.title} 
-                                  className="w-12 h-12 object-cover rounded"
-                                />
-                                <div>
-                                  <p className="text-sm font-medium">{item.product.title}</p>
-                                  <p className="text-sm text-gray-500">
-                                    ${item.product.price} x {item.count}
-                                  </p>
-                                </div>
+                            <div 
+                              key={item.product.id} 
+                              className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
+                              onClick={() => {
+                                setIsCartOpen(false);
+                                const slugifiedName = item.product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                                const gender = item.product.category?.gender?.toLowerCase() || 'unisex';
+                                const category = item.product.category?.name?.toLowerCase().replace(/\s+/g, '-') || 'general';
+                                const categoryId = item.product.category?.id || '0';
+                                navigate(`/shop/${gender}/${category}/${categoryId}/${slugifiedName}/${item.product.id}`);
+                              }}
+                            >
+                              <img 
+                                src={item.product.images?.[0]?.url || 'https://via.placeholder.com/300'} 
+                                alt={item.product.name} 
+                                className="w-16 h-16 object-cover rounded-md"
+                              />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 truncate">
+                                  {item.product.name}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                  ${Number(item.product.price).toFixed(2)} x {item.count}
+                                </p>
+                                <p className="text-sm font-medium text-gray-900">
+                                  Total: ${(item.product.price * item.count).toFixed(2)}
+                                </p>
                               </div>
-                              <button
-                                // eslint-disable-next-line no-undef
-                                onClick={() => dispatch(removeFromCart(item.product.id))}
-                                className="text-red-500 hover:text-red-700"
-                              >
-                                ×
-                              </button>
                             </div>
                           ))}
                           <div className="pt-3 border-t">
