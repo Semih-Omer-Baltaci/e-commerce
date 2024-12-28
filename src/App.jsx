@@ -12,6 +12,11 @@ import ProductDetail from './pages/ProductDetail';
 import SignupForm from './components/SignupForm';
 import LoginForm from './components/LoginForm';
 import ShoppingCartPage from './pages/ShoppingCartPage';
+import AboutUs from './pages/AboutUs';
+import Team from './pages/Team';
+import Order from './pages/Order';
+import OrderSuccess from './pages/OrderSuccess';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -27,6 +32,24 @@ function App() {
               <Route path="signup" element={<SignupForm />} />
               <Route path="login" element={<LoginForm />} />
               <Route path="cart" element={<ShoppingCartPage />} />
+              <Route path="about" element={<AboutUs />} />
+              <Route path="team" element={<Team />} />
+              <Route
+                path="order"
+                element={
+                  <ProtectedRoute>
+                    <Order />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="order-success"
+                element={
+                  <ProtectedRoute>
+                    <OrderSuccess />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
           </Routes>
         </div>

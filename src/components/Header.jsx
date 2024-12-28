@@ -68,7 +68,7 @@ const Header = () => {
       </div>
 
       {/* Main Header */}
-      <header className="fixed top-[41px] left-0 right-0 bg-white z-50">
+      <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4">
           {/* Desktop Header */}
           <div className="hidden md:flex items-center justify-between h-[58px]">
@@ -125,7 +125,8 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-              <Link to="/about" className="text-[#737373] hover:text-[#252B42] text-sm font-bold">About</Link>
+              <Link to="/about" className="text-[#737373] hover:text-[#252B42] text-sm font-bold">About Us</Link>
+              <Link to="/team" className="text-[#737373] hover:text-[#252B42] text-sm font-bold">Team</Link>
               <Link to="/blog" className="text-[#737373] hover:text-[#252B42] text-sm font-bold">Blog</Link>
               <Link to="/contact" className="text-[#737373] hover:text-[#252B42] text-sm font-bold">Contact</Link>
               <Link to="/pages" className="text-[#737373] hover:text-[#252B42] text-sm font-bold">Pages</Link>
@@ -278,7 +279,8 @@ const Header = () => {
               <nav className="flex flex-col space-y-4">
                 <Link to="/" className="text-gray-600 hover:text-gray-900 px-4 py-2">Home</Link>
                 <Link to="/shop" className="text-gray-600 hover:text-gray-900 px-4 py-2">Shop</Link>
-                <Link to="/about" className="text-gray-600 hover:text-gray-900 px-4 py-2">About</Link>
+                <Link to="/about" className="text-gray-600 hover:text-gray-900 px-4 py-2">About Us</Link>
+                <Link to="/team" className="text-gray-600 hover:text-gray-900 px-4 py-2">Team</Link>
                 <Link to="/contact" className="text-gray-600 hover:text-gray-900 px-4 py-2">Contact</Link>
                 {currentUser ? (
                   <div className="flex flex-col space-y-4">

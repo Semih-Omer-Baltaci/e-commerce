@@ -8,7 +8,7 @@ const Home = () => {
 
   const heroSlides = [
     {
-      image: '/assets/carousel-1.jpg',
+      image: '/assets/shop-hero-1-product.jpg',
       mobileImage: '/assets/mobile-hero.jpg',
       subtitle: 'SUMMER 2020',
       title: 'NEW\nCOLLECTION',
@@ -17,7 +17,7 @@ const Home = () => {
       bgColor: 'bg-[#96E9FB]'
     },
     {
-      image: '/assets/carousel-1.jpg',
+      image: '/assets/technology1.jpg',
       mobileImage: '/assets/mobile-hero.jpg',
       subtitle: 'WINTER 2024',
       title: 'SEASONAL\nCOLLECTION',
