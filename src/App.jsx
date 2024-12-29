@@ -17,6 +17,7 @@ import Team from './pages/Team';
 import Order from './pages/Order';
 import OrderSuccess from './pages/OrderSuccess';
 import ProtectedRoute from './components/ProtectedRoute';
+import PreviousOrder from './pages/PreviousOrder';
 
 function App() {
   return (
@@ -34,20 +35,12 @@ function App() {
               <Route path="cart" element={<ShoppingCartPage />} />
               <Route path="about" element={<AboutUs />} />
               <Route path="team" element={<Team />} />
-              <Route
-                path="order"
-                element={
-                  <ProtectedRoute>
-                    <Order />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="order" element={<ProtectedRoute element={<Order />} />} />
+              <Route path="orders" element={<ProtectedRoute element={<PreviousOrder />} />} />
               <Route
                 path="order-success"
                 element={
-                  <ProtectedRoute>
-                    <OrderSuccess />
-                  </ProtectedRoute>
+                  <ProtectedRoute element={<OrderSuccess />} />
                 }
               />
             </Route>

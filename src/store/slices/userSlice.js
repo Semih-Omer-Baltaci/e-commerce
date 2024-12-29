@@ -79,6 +79,16 @@ const userSlice = createSlice({
             localStorage.removeItem('user');
             // Clear Authorization header
             delete api.defaults.headers.common['Authorization'];
+        },
+        setToken(state, action) {
+            state.token = action.payload;
+            api.defaults.headers.common['Authorization'] = `Bearer ${action.payload}`;
+            localStorage.setItem('token', action.payload);
+        },
+        removeToken(state) {
+            state.token = null;
+            delete api.defaults.headers.common['Authorization'];
+            localStorage.removeItem('token');
         }
     },
     extraReducers: (builder) => {
@@ -105,5 +115,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, setToken, removeToken } = userSlice.actions;
 export default userSlice.reducer;
