@@ -5,7 +5,7 @@ const AboutUs = () => {
   return (
     <div className="container mx-auto px-4 py-8 mt-24">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center">About SemihShop</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center">About Dunder Mifflin</h1>
         
         <div className="mb-8">
           <img
@@ -13,6 +13,18 @@ const AboutUs = () => {
             alt="The Office Cast"
             className="w-full rounded-lg shadow-lg mb-6"
           />
+        </div>
+
+        <div className="mb-8">
+          <div className="aspect-w-16 aspect-h-9">
+            <iframe
+              className="w-full h-[500px] rounded-lg shadow-lg"
+              src="https://www.youtube.com/embed/4iisysmwB_k"
+              title="The Office Introduction"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
         </div>
 
         <div className="prose lg:prose-xl mx-auto">

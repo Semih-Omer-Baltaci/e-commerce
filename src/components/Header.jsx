@@ -136,21 +136,21 @@ const Header = () => {
             <div className="flex items-center space-x-6">
               <div className="flex items-center text-[#23A6F0] space-x-1">
                 {currentUser ? (
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center space-x-2">
-                      <img
-                        src={currentUser.gravatarUrl}
-                        alt={currentUser.name}
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <span className="text-sm font-medium">{currentUser.email}</span>
-                    </div>
-                    <button
-                      onClick={handleLogout}
-                      className="text-sm text-gray-600 hover:text-gray-900"
-                    >
-                      Logout
+                  <div className="relative group">
+                    <button className="flex items-center space-x-1 text-gray-700 hover:text-gray-900">
+                      <span>{currentUser.name}</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
                     </button>
+                    <div className="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                      <Link to="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Previous Orders
+                      </Link>
+                      <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Logout
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <Link
@@ -240,11 +240,11 @@ const Header = () => {
               <div className="flex items-center space-x-2">
                 <button className="text-[#23A6F0] relative">
                   <Heart className="w-4 h-4" />
-                  <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-                    1
+                  <span className="absolute -top-2 -right-2 -[#23A6F0] text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+                    
                   </span>
                 </button>
-                <span className="text-[#23A6F0] text-xs">1</span>
+                <span className="text-[#23A6F0] text-xs"></span>
               </div>
             </div>
           </div>
@@ -285,6 +285,7 @@ const Header = () => {
                 {currentUser ? (
                   <div className="flex flex-col space-y-4">
                     <Link to="/profile" className="text-gray-600 hover:text-gray-900 px-4 py-2">Profile</Link>
+                    <Link to="/orders" className="text-gray-600 hover:text-gray-900 px-4 py-2">Previous Orders</Link>
                     <button
                       onClick={handleLogout}
                       className="text-gray-600 hover:text-gray-900 px-4 py-2"
