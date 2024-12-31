@@ -1,4 +1,4 @@
-import { Menu, Search, ShoppingCart, Heart } from 'lucide-react';
+import { Menu, Search, ShoppingCart, Heart, ChevronDown } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/slices/userSlice';
@@ -8,6 +8,7 @@ import { fetchCategories } from '@/store/slices/categoriesSlice';
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
@@ -134,39 +135,58 @@ const Header = () => {
 
             {/* Right Section */}
             <div className="flex items-center space-x-6">
-              <div className="flex items-center text-[#23A6F0] space-x-1">
-                {currentUser ? (
-                  <div className="relative group">
-                    <button className="flex items-center space-x-1 text-gray-700 hover:text-gray-900">
-                      <span>{currentUser.name}</span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    <div className="absolute right-0 w-48 py-2 mt-2 bg-white rounded-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                      <Link to="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              {currentUser ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="flex items-center space-x-2 text-sm hover:text-gray-600"
+                  >
+                    <span>{currentUser.name}</span>
+                    <ChevronDown size={16} />
+                  </button>
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                      <Link
+                        to="/orders"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
                         Previous Orders
                       </Link>
-                      <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
                         Logout
                       </button>
                     </div>
-                  </div>
-                ) : (
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center space-x-4">
                   <Link
                     to="/login"
                     className="text-sm font-medium text-gray-600 hover:text-gray-900"
                   >
                     Login
                   </Link>
-                )}
-              </div>
+                  <Link
+                    to="/signup"
+                    className="text-sm font-medium text-gray-600 hover:text-gray-900"
+                  >
+                    Register
+                  </Link>
+                </div>
+              )}
               <button className="text-[#23A6F0]">
                 <Search className="w-4 h-4" />
               </button>
               <div className="relative">
-                <button 
-                  className="flex items-center" 
+                <button
+                  className="flex items-center"
                   onClick={() => setIsCartOpen(!isCartOpen)}
                 >
                   <ShoppingCart className="w-6 h-6" />
@@ -176,7 +196,7 @@ const Header = () => {
                     </span>
                   )}
                 </button>
-                
+
                 {isCartOpen && (
                   <div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg z-50">
                     <div className="p-4">
@@ -186,8 +206,8 @@ const Header = () => {
                       ) : (
                         <div className="space-y-3">
                           {cart.map((item) => (
-                            <div 
-                              key={item.product.id} 
+                            <div
+                              key={item.product.id}
                               className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
                               onClick={() => {
                                 setIsCartOpen(false);
@@ -198,9 +218,9 @@ const Header = () => {
                                 navigate(`/shop/${gender}/${category}/${categoryId}/${slugifiedName}/${item.product.id}`);
                               }}
                             >
-                              <img 
-                                src={item.product.images?.[0]?.url || 'https://via.placeholder.com/300'} 
-                                alt={item.product.name} 
+                              <img
+                                src={item.product.images?.[0]?.url || 'https://via.placeholder.com/300'}
+                                alt={item.product.name}
                                 className="w-16 h-16 object-cover rounded-md"
                               />
                               <div className="flex-1 min-w-0">
@@ -251,8 +271,8 @@ const Header = () => {
 
           {/* Mobile Header */}
           <div className="md:hidden flex items-center justify-between h-16">
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2"
               aria-label="Toggle mobile menu"
             >
@@ -294,7 +314,10 @@ const Header = () => {
                     </button>
                   </div>
                 ) : (
-                  <Link to="/login" className="text-gray-600 hover:text-gray-900 px-4 py-2">Login</Link>
+                  <div className="flex flex-col space-y-4">
+                    <Link to="/login" className="text-gray-600 hover:text-gray-900 px-4 py-2">Login</Link>
+                    <Link to="/signup" className="text-gray-600 hover:text-gray-900 px-4 py-2">Register</Link>
+                  </div>
                 )}
               </nav>
             </div>

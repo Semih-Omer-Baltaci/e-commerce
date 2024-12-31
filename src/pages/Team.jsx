@@ -7,13 +7,7 @@ const DEFAULT_AVATAR = "https://ui-avatars.com/api/?background=0D8ABC&color=fff"
 
 // Team members data
 const teamMembers = [
-  {
-    name: "Erhan FIRAT",
-    role: "Project Owner",
-    image: "https://avatars.githubusercontent.com/u/2324398?v=4",
-    linkedin: "https://www.linkedin.com/in/erhan-firat/",
-    github: "https://github.com/erhanfirat"
-  },
+ 
   {
     name: "Gökhan Özdemir",
     role: "Scrum Master",

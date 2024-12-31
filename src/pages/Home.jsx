@@ -9,7 +9,7 @@ const Home = () => {
   const heroSlides = [
     {
       image: '/assets/shop-hero-1-product.jpg',
-      mobileImage: '/assets/mobile-hero.jpg',
+      mobileImage: '/assets/product-slide-1.jpg',
       subtitle: 'SUMMER 2020',
       title: 'NEW\nCOLLECTION',
       description: 'We know how large objects will act,\nbut things on a small scale.',
@@ -18,7 +18,7 @@ const Home = () => {
     },
     {
       image: '/assets/technology1.jpg',
-      mobileImage: '/assets/mobile-hero.jpg',
+      mobileImage: '/assets/technology1.jpg',
       subtitle: 'WINTER 2024',
       title: 'SEASONAL\nCOLLECTION',
       description: 'Discover our latest winter styles,\nperfect for the cold season.',
@@ -127,28 +127,10 @@ const Home = () => {
       </section>
 
       {/* Mobile Banner Section */}
-      <section className="md:hidden relative h-[600px] bg-cyan-400">
-        <div className="relative h-full">
-          <img 
-            src="/assets/summer-collection.jpg" 
-            alt="Summer Collection 2020" 
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4">
-            <span className="text-lg mb-4">SUMMER 2020</span>
-            <h2 className="text-4xl font-bold mb-4">NEW<br/>COLLECTION</h2>
-            <p className="mb-8 max-w-xs">
-              We know how large objects will act, but things on a small scale.
-            </p>
-            <Link 
-              to="/shop" 
-              className="bg-emerald-500 text-white px-8 py-3 rounded-md hover:bg-emerald-600 transition-colors"
-            >
-              SHOP NOW
-            </Link>
-          </div>
-        </div>
-      </section>
+      
+       
+       
+     
 
       {/* Categories Section */}
       <section className="px-4 py-8 md:py-12">
