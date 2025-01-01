@@ -19,7 +19,7 @@ const Shop = () => {
 
   const handleProductClick = (product) => {
     const slugifiedName = product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    const gender = product.category?.gender?.toLowerCase() || 'unisex';
+    const gender = product.category?.gender?.toLowerCase() === 'e' ? 'erkek' : 'kadin';
     const category = product.category?.name?.toLowerCase().replace(/\s+/g, '-') || 'general';
     const categoryId = product.category?.id || '0';
     
