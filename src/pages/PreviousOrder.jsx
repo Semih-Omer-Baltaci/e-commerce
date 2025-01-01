@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import api from '../api/axios';
@@ -11,7 +11,6 @@ function PreviousOrder() {
     const [error, setError] = useState(null);
     const { currentUser, token } = useSelector((state) => state.user);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps, no-undef
     const fetchOrders = useCallback(async () => {
         try {
             setIsLoading(true);
@@ -25,6 +24,7 @@ function PreviousOrder() {
             api.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
             
             const response = await api.get('/order');
+            console.log('API Response:', response.data); // Debug için eklendi
             
             if (!response.data) {
                 throw new Error('No data received from server');
@@ -42,7 +42,25 @@ function PreviousOrder() {
                 throw new Error('Unexpected data format received');
             }
 
-            setOrders(orderData);
+            // Veri yapısını düzenle
+            const formattedOrders = orderData.map(order => ({
+                _id: order._id || order.id,
+                createdAt: order.createdAt || new Date().toISOString(),
+                totalAmount: order.totalAmount || order.total || 0,
+                status: order.status || 'pending',
+                items: (order.items || []).map(item => ({
+                    _id: item._id || item.id,
+                    product: {
+                        name: item.product?.name || item.name || 'Unknown Product',
+                        image: item.product?.image || item.image || '',
+                        price: item.product?.price || item.price || 0
+                    },
+                    quantity: item.quantity || 1,
+                    price: item.price || item.product?.price || 0
+                }))
+            }));
+
+            setOrders(formattedOrders);
         } catch (error) {
             console.error('Error details:', {
                 message: error.message,
@@ -54,7 +72,7 @@ function PreviousOrder() {
         } finally {
             setIsLoading(false);
         }
-    });
+    }, [token]);
 
     const handleResetOrders = async () => {
         if (!window.confirm('Are you sure you want to clear your order history? This action cannot be undone.')) {
@@ -95,7 +113,7 @@ function PreviousOrder() {
             setIsLoading(false);
             setError('Please log in to view your orders');
         }
-    }, [currentUser, fetchOrders, token]);
+    }, [currentUser?.token, fetchOrders]);
 
     const toggleOrderDetails = (orderId) => {
         setExpandedOrder(expandedOrder === orderId ? null : orderId);

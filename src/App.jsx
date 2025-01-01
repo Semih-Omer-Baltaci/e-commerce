@@ -19,6 +19,7 @@ import OrderSuccess from './pages/OrderSuccess';
 import ProtectedRoute from './components/ProtectedRoute';
 import PreviousOrder from './pages/PreviousOrder';
 import Contact from './pages/Contact';
+import OrderAddress from './pages/OrderAddress';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
               <Route path="team" element={<Team />} />
               <Route path="contact" element={<Contact />} />
               <Route path="order" element={<ProtectedRoute element={<Order />} />} />
+              <Route path="order-address" element={<ProtectedRoute element={<OrderAddress />} />} />
               <Route path="orders" element={<ProtectedRoute element={<PreviousOrder />} />} />
               <Route
                 path="order-success"

@@ -6,22 +6,30 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      // eslint-disable-next-line no-undef
       "@": path.resolve(__dirname, "./src"),
     },
   },
   server: {
-    port: 3000,
-    host: true
+    port: 5173,
+    host: true,
+    hmr: {
+      host: 'localhost',
+      protocol: 'ws'
+    }
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    assetsDir: 'assets',
+    sourcemap: false,
+    minify: true,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
-        },
-      },
-    },
-  },
+          redux: ['@reduxjs/toolkit', 'react-redux']
+        }
+      }
+    }
+  }
 })
