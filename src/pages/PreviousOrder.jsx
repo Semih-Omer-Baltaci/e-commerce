@@ -41,18 +41,56 @@ function PreviousOrder() {
             } else {
                 throw new Error('Unexpected data format received');
             }
-
+            // {
+            //     "id": 14,
+            //     "user_id": 25,
+            //     "address_id": 13,
+            //     "order_date": "2025-01-02T11:50:57.789Z",
+            //     "card_no": 4444444444444444,
+            //     "card_name": "asda",
+            //     "card_expire_month": 2,
+            //     "card_expire_year": 2222,
+            //     "price": 205.48000000000002,
+            //     "products": [
+            //         {
+            //             "id": 3,
+            //             "name": "Beyaz %100 Pamuk",
+            //             "description": "Beyaz %100 Pamuk Regular/Normal Kalıp Basic V Yaka Uzun Kollu Örme T-Shirt TWOAW21TS0099",
+            //             "price": 140.99,
+            //             "count": 1,
+            //             "images": [
+            //                 {
+            //                     "url": "https://cdn.dsmcdn.com/ty155/product/media/images/20210806/13/116221695/81629339/1/1_org_zoom.jpg",
+            //                     "index": 0
+            //                 }
+            //             ]
+            //         },
+            //         {
+            //             "id": 4,
+            //             "name": "Çocuk Kırmızı Türk",
+            //             "description": "Çocuk Kırmızı Türk Bayraklı T-shirt",
+            //             "price": 64.49,
+            //             "count": 1,
+            //             "images": [
+            //                 {
+            //                     "url": "https://cdn.dsmcdn.com/ty563/product/media/images/20221013/13/192656071/81629346/2/2_org_zoom.jpg",
+            //                     "index": 0
+            //                 }
+            //             ]
+            //         }
+            //     ]
+            // }
             // Veri yapısını düzenle
             const formattedOrders = orderData.map(order => ({
                 _id: order._id || order.id,
                 createdAt: order.createdAt || new Date().toISOString(),
                 totalAmount: order.totalAmount || order.total || 0,
                 status: order.status || 'pending',
-                items: (order.items || []).map(item => ({
+                items: (order.products || []).map(item => ({
                     _id: item._id || item.id,
                     product: {
                         name: item.product?.name || item.name || 'Unknown Product',
-                        image: item.product?.image || item.image || '',
+                        image: item.product?.images?.[0]?.url || item.images?.[0]?.url || item.image || '',
                         price: item.product?.price || item.price || 0
                     },
                     quantity: item.quantity || 1,
@@ -194,9 +232,13 @@ function PreviousOrder() {
                                             <div key={`${order._id || order.id}-item-${item._id || item.id || index}`} className="flex items-center justify-between py-2 border-b last:border-b-0 bg-white p-4 rounded-lg">
                                                 <div className="flex items-center space-x-4">
                                                     <img 
-                                                        src={item.product?.image || item.image} 
-                                                        alt={item.product?.name || item.name}
+                                                        src={item.product?.image} 
+                                                        alt={item.product?.name || 'Product image'}
                                                         className="w-16 h-16 object-cover rounded"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = 'https://via.placeholder.com/150?text=No+Image';
+                                                        }}
                                                     />
                                                     <div>
                                                         <p className="font-medium">{item.product?.name || item.name}</p>
@@ -215,11 +257,11 @@ function PreviousOrder() {
                                     <div className="mt-4 pt-4 border-t">
                                         <div className="flex justify-between items-center">
                                             <span className="font-medium">Shipping Address:</span>
-                                            <p className="text-gray-600">{order.shippingAddress}</p>
+                                            <p className="text-gray-600">{order.card_name} asdsada</p>
                                         </div>
                                         <div className="flex justify-between items-center mt-2">
                                             <span className="font-medium">Payment Method:</span>
-                                            <p className="text-gray-600">{order.paymentMethod}</p>
+                                            <p className="text-gray-600">{order.card_no}</p>
                                         </div>
                                     </div>
                                 </div>
