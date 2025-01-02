@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/slices/userSlice';
 import { useEffect, useState } from 'react';
 import { fetchCategories } from '@/store/slices/categoriesSlice';
+import { ModeToggle } from './mode-toggle';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -69,7 +70,7 @@ const Header = () => {
       </div>
 
       {/* Main Header */}
-      <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+      <header className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4">
           {/* Desktop Header */}
           <div className="hidden md:flex items-center justify-between h-[58px]">
@@ -135,6 +136,7 @@ const Header = () => {
 
             {/* Right Section */}
             <div className="flex items-center space-x-6">
+              <ModeToggle />
               {currentUser ? (
                 <div className="relative">
                   <button

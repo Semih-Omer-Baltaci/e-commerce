@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+// @ts-ignore
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 function OrderAddress() {
     const [selectedAddress] = useState('');
     const [sameAsBilling, setSameAsBilling] = useState(true);
-    const cartState = useSelector((state) => state.cart);
+    const cartState = useSelector((/** @type {{ cart: any; }} */ state) => state.cart);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,7 +33,7 @@ function OrderAddress() {
     }
 
     // Toplam tutarı hesapla
-    const subtotal = cartState.cart.reduce((total, item) => {
+    const subtotal = cartState.cart.reduce((/** @type {number} */ total, /** @type {{ product: { price: number; }; count: number; }} */ item) => {
         const price = item.product?.price || 0;
         const count = item.count || 0;
         return total + (price * count);

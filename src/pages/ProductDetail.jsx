@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductById } from '@/store/slices/productSlice';
 import { addToCart } from '@/store/slices/cartSlice';
+import { Button } from '@/components/ui/button';
 
 const ProductDetail = () => {
   const { productId } = useParams();

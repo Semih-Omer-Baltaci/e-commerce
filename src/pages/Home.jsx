@@ -14,7 +14,7 @@ const Home = () => {
       title: 'NEW\nCOLLECTION',
       description: 'We know how large objects will act,\nbut things on a small scale.',
       cta: 'SHOP NOW',
-      bgColor: 'bg-[#96E9FB]'
+      bgColor: 'bg-[#96E9FB] dark:bg-[#1A1D23]'
     },
     {
       image: '/assets/technology1.jpg',
@@ -23,7 +23,7 @@ const Home = () => {
       title: 'SEASONAL\nCOLLECTION',
       description: 'Discover our latest winter styles,\nperfect for the cold season.',
       cta: 'SHOP NOW',
-      bgColor: 'bg-[#96E9FB]'
+      bgColor: 'bg-[#96E9FB] dark:bg-[#1A1D23]'
     }
   ];
 
@@ -44,9 +44,9 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col pt-[76px] md:pt-[99px]">
+    <div className="flex flex-col pt-[76px] md:pt-[99px] min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="relative w-screen h-screen overflow-hidden">
+      <section className="relative w-screen h-screen overflow-hidden bg-gray-50 dark:bg-gray-800">
         {/* Slides Container */}
         <div className="absolute inset-0">
           {heroSlides.map((slide, index) => (
@@ -78,10 +78,10 @@ const Home = () => {
                   <h6 className="text-[#2A7CC7] text-base font-bold tracking-[0.1px] mb-6 opacity-0 animate-fadeIn">
                     {slide.subtitle}
                   </h6>
-                  <h1 className="text-[#252B42] text-[40px] md:text-[58px] leading-[1.2] md:leading-[80px] font-bold mb-6 whitespace-pre-line opacity-0 animate-slideUp">
+                  <h1 className="text-[#252B42] dark:text-white text-[40px] md:text-[58px] leading-[1.2] md:leading-[80px] font-bold mb-6 whitespace-pre-line opacity-0 animate-slideUp">
                     {slide.title}
                   </h1>
-                  <p className="text-[#737373] text-xl leading-[30px] mb-7 whitespace-pre-line max-w-[400px] mx-auto opacity-0 animate-slideUp animation-delay-200">
+                  <p className="text-[#737373] dark:text-gray-400 text-xl leading-[30px] mb-7 whitespace-pre-line max-w-[400px] mx-auto opacity-0 animate-slideUp animation-delay-200">
                     {slide.description}
                   </p>
                   <Link
@@ -97,17 +97,17 @@ const Home = () => {
         </div>
 
         {/* Navigation Arrows */}
-        <button 
+        <button
           onClick={prevSlide}
-          className="absolute left-4 md:left-[40px] top-1/2 -translate-y-1/2 w-[42px] h-[42px] md:w-[62px] md:h-[62px] bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center z-20 transition-all duration-300 backdrop-blur-sm"
+          className="absolute left-4 md:left-[40px] top-1/2 -translate-y-1/2 w-[42px] h-[42px] md:w-[62px] md:h-[62px] bg-white/10 dark:bg-gray-700 hover:bg-white/20 dark:hover:bg-gray-600 rounded-full flex items-center justify-center z-20 transition-all duration-300 backdrop-blur-sm"
         >
-          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 text-white/70" />
+          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 text-white/70 dark:text-gray-400" />
         </button>
-        <button 
+        <button
           onClick={nextSlide}
-          className="absolute right-4 md:right-[40px] top-1/2 -translate-y-1/2 w-[42px] h-[42px] md:w-[62px] md:h-[62px] bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center z-20 transition-all duration-300 backdrop-blur-sm"
+          className="absolute right-4 md:right-[40px] top-1/2 -translate-y-1/2 w-[42px] h-[42px] md:w-[62px] md:h-[62px] bg-white/10 dark:bg-gray-700 hover:bg-white/20 dark:hover:bg-gray-600 rounded-full flex items-center justify-center z-20 transition-all duration-300 backdrop-blur-sm"
         >
-          <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-white/70" />
+          <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-white/70 dark:text-gray-400" />
         </button>
 
         {/* Slide Indicators */}
@@ -117,9 +117,9 @@ const Home = () => {
               key={index}
               onClick={() => setCurrentSlide(index)}
               className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide 
-                ? 'bg-white/80 scale-110' 
-                : 'bg-white/30 hover:bg-white/50'
+                index === currentSlide
+                  ? 'bg-white/80 dark:bg-gray-400 scale-110'
+                  : 'bg-white/30 dark:bg-gray-700 hover:bg-white/50 dark:hover:bg-gray-600'
               }`}
             />
           ))}
@@ -127,15 +127,12 @@ const Home = () => {
       </section>
 
       {/* Mobile Banner Section */}
-      
-       
-       
-     
+      {/* ... */}
 
       {/* Categories Section */}
-      <section className="px-4 py-8 md:py-12">
+      <section className="px-4 py-8 md:py-12 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">Shop by Category</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900 dark:text-white">Shop by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {['Men', 'Women', 'Accessories', 'Shoes'].map((category) => (
               <Link
@@ -143,7 +140,7 @@ const Home = () => {
                 to={`/shop/${category.toLowerCase()}`}
                 className="relative overflow-hidden rounded-lg aspect-square group"
               >
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
+                <div className="absolute inset-0 bg-black/40 dark:bg-gray-700 group-hover:bg-black/50 dark:group-hover:bg-gray-600 transition-colors" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
                   <span className="text-lg md:text-xl font-semibold">{category}</span>
                   <ChevronRight className="w-5 h-5 mt-2 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -155,9 +152,9 @@ const Home = () => {
       </section>
 
       {/* Featured Products */}
-      <section className="px-4 py-8 md:py-12 bg-gray-50">
+      <section className="px-4 py-8 md:py-12 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">Featured Products</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900 dark:text-white">Featured Products</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[] /* featuredProducts */.map((product) => (
               <ProductCard key={product.id} product={product} />

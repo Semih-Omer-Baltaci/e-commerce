@@ -84,7 +84,7 @@ function PreviousOrder() {
             const formattedOrders = orderData.map(order => ({
                 _id: order._id || order.id,
                 createdAt: order.createdAt || new Date().toISOString(),
-                totalAmount: order.totalAmount || order.total || 0,
+                totalAmount: order.price || order.total || 0,
                 status: order.status || 'pending',
                 items: (order.products || []).map(item => ({
                     _id: item._id || item.id,

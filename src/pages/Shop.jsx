@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts, setFilters } from '@/store/slices/productSlice';
 import { addToCart } from '@/store/slices/cartSlice';
 import { Grid2X2, List } from 'lucide-react';
-
+import Breadcrumb from '../components/ui/breadcrumb';
 
 const Shop = () => {
   const navigate = useNavigate();
@@ -16,6 +16,12 @@ const Shop = () => {
   const [filterInput, setFilterInput] = useState(filters.filter);
   const [isGridView, setIsGridView] = useState(true);
   const productsPerPage = 25;
+
+  const breadcrumbItems = [
+    { label: 'Home', link: '/' },
+    { label: 'Store', link: '/shop' },
+    { label: 'Products', link: '/shop' }
+  ];
 
   const handleProductClick = (product) => {
     const slugifiedName = product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -78,7 +84,9 @@ const Shop = () => {
       {/* Shop Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-4">Our Products</h1>
-    
+        <div className="bg-white p-4 rounded-lg shadow-sm">
+          <Breadcrumb items={breadcrumbItems} />
+        </div>
       </div>
       <Categories></Categories>
       <div className="flex flex-col py-4 pb-8 sm:flex-row justify-between items-start sm:items-center gap-4">
